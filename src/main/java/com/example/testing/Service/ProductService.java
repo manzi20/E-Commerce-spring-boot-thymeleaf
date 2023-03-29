@@ -18,5 +18,8 @@ public interface ProductService {
 
     void deleteProductById(Long id);
 
+    List<Product> findByKeyword(String keyword);
+
+     List<Product> filteredProducts(String search);
 
 }

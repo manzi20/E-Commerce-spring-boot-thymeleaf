@@ -1,6 +1,7 @@
 package com.example.testing.Service;
 
 import com.example.testing.Repository.ProductRepository;
+import com.example.testing.Specification.ProductSpec;
 import com.example.testing.model.Product;
 import org.springframework.stereotype.Service;
 
@@ -40,4 +41,24 @@ public class ProductServiceImp implements ProductService {
     public void deleteProductById(Long id) {
     productRepository.deleteById(id);
     }
+
+    @Override
+    public List<Product> findByKeyword(String keyword){
+        return productRepository.findByKeyword(keyword);
+    }
+
+    @Override
+    public List<Product> filteredProducts(String search){
+
+        return productRepository.findAll(ProductSpec.filterProducts(search));
+    }
+
+
+
+
+
+
+
+
+
 }

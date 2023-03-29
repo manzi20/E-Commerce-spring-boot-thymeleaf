@@ -10,6 +10,7 @@ import com.example.testing.Util.FileUploadUtil;
 import com.example.testing.model.Product;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -68,8 +69,16 @@ public class ProductController {
     }
 
 
+   @GetMapping("/ProductFiltered")
+   public String listProducts(Model model,String keyword) {
+       if(keyword != null){
+           model.addAttribute("products",productService.findByKeyword(keyword));
+       }else{
+           model.addAttribute("products", productService.getAllProducts());
+       }
 
-
+       return "product";
+   }
 
 
 //    @RequestMapping({"/user/list", "/view"})
@@ -79,11 +88,24 @@ public class ProductController {
 
 
     @GetMapping("/av")
-    public String listProduct(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+    public String listProduct(Model model,String keyword) {
+//      model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("departs", categoryService.getAllCategory());
+
+        if(keyword != null){
+//            model.addAttribute("products",productService.findByKeyword(keyword));
+            model.addAttribute("products",productService.filteredProducts(keyword));
+
+        }else{
+            model.addAttribute("products", productService.getAllProducts());
+        }
+
         return "product";
+
+
+
     }
+
 
 //    @GetMapping("/ap")
 //    public String phoneCat(Model model) {
